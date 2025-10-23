@@ -11,10 +11,10 @@
       <div class="form-group">
         <input type="password" id="password" v-model="password" placeholder="Password" required />
       </div>
-      <button type="submit">Register</button>
+      <button class="button-reg" type="submit">Register</button>
       <div class="redirect">
         <p>Already User</p>
-        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink style="color: #e16868;" to="/login">Login</RouterLink>
       </div>
     </form>
   </div>
@@ -47,4 +47,16 @@ async function handleSubmit() {
   password.value = ''
 }
 </script>
+
+<style>
+button {
+  background-color: #e16868;
+  color: #e16868;
+}
+.button-reg {
+  background-color: #e16868;
+  color: #e16868;
+}
+
+</style>
 

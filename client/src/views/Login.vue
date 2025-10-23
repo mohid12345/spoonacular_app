@@ -11,7 +11,7 @@
       <button type="submit">Login</button>
       <div class="redirect">
         <p>New User</p>
-        <RouterLink to="/register">Sign Up</RouterLink>
+        <RouterLink style="color: #e16868;" to="/register">Sign Up</RouterLink>
       </div>
     </form>
   </div>
