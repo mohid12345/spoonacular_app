@@ -23,6 +23,21 @@ class RecipeService {
             throw new Error(`Error getting user recipes: ${error}`);
         }
     }
+    async getRecipeById(recipeId, userId) {
+        try {
+            const recipe = await this.recipeRepository.findById(recipeId);
+            if (!recipe) {
+                return null;
+            }
+            if (recipe.UserId !== userId) {
+                throw new Error("you are not Authorized");
+            }
+            return recipe;
+        }
+        catch (error) {
+            throw new Error(`Error getting recipe: ${error}`);
+        }
+    }
     async deleteRecipe(recipeId, userId) {
         try {
             const recipe = await this.recipeRepository.findById(recipeId);

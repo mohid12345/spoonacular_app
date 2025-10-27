@@ -23,11 +23,13 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { localApi } from '../api'
+import { useAuth } from '../composables/useAuth'
 
 const email = ref('')
 const password = ref('')
 const router = useRouter()
 const toast = useToast()
+const { setUser } = useAuth()
 
 async function handleSubmit() {
   try {
@@ -35,6 +37,12 @@ async function handleSubmit() {
     const response = await localApi.login(data) as any
     
     if (response.token) {
+      // Update the auth state immediately
+      setUser({
+        user: response.user,
+        UserId: response.UserId
+      })
+      
       toast.success(response.msg)
       router.push('/')
     } else {

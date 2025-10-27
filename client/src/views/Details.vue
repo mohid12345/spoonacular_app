@@ -24,7 +24,7 @@ const data = ref<RecipeDetails | null>(null)
 
 onMounted(async () => {
   const id = route.params.id as string
-  const apiKey = '4af02576760d4266b2534701bd32f8f9'
+  const apiKey = import.meta.env.VITE_SPOON_KEY
   const apiUrl = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=${apiKey}`
   const res = await fetch(apiUrl)
   data.value = await res.json()

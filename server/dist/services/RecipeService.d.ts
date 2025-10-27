@@ -6,6 +6,7 @@ export declare class RecipeService implements IRecipeService {
         msg: string;
     }>;
     getUserRecipes(userId: string): Promise<import('../types').IRecipe[]>;
+    getRecipeById(recipeId: string, userId: string): Promise<import('../types').IRecipe | null>;
     deleteRecipe(recipeId: string, userId: string): Promise<{
         msg: string;
     }>;

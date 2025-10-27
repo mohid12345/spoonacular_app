@@ -10,5 +10,6 @@ const recipeController = new RecipeController_1.RecipeController();
 router.use(auth_1.auth);
 router.post('/create', recipeController.createRecipe);
 router.get('/get', recipeController.getUserRecipes);
+router.get('/get/:recipeId', recipeController.getRecipeById);
 router.delete('/delete/:recipeId', recipeController.deleteRecipe);
 //# sourceMappingURL=recipeRoutes.js.map

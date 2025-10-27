@@ -13,7 +13,7 @@
 
       <img src="https://img.icons8.com/?size=250&id=20749&format=png&color=000000" alt="User Logo" class="user-img" />
 
-      <div class="profile-dropdown">
+      <div v-if="isLoggedIn" class="profile-dropdown">
         <!-- <div class="center_profile"> -->
           <span class="dropdown-button">{{ userName }}</span>
         <!-- </div> -->
@@ -23,14 +23,15 @@
           <button class="dropdown-item" @click="logout">Logout</button>
         </div>
       </div>
-      <button class="login-button" @click="navigateTo('/login')">Login</button>
+      <button v-else class="login-button" @click="navigateTo('/login')">Login</button>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuth } from '../composables/useAuth';
 
 // Props
 // interface Props {
@@ -49,49 +50,18 @@ const emit = defineEmits<{
 const showDropdown = ref(false);
 const router = useRouter();
 
-
-
-const user = ref<{ user: string } | null>(null);
-
-
-onMounted(() => {
-  // Load user from localStorage once on mount
-  const raw = localStorage.getItem('userData');
-  if (raw) user.value = JSON.parse(raw);
-});
-
-
-const userName = computed(() => user.value?.user || 'Guest');
+// Use the auth composable
+const { isLoggedIn, userName, clearUser } = useAuth();
 
 const navigateTo = (path: string) => {
   router.push(path);
 };
 
 const logout = () => {
-  localStorage.clear();
-  user.value = null; // <-- update reactive state
+  clearUser();
   alert('logout success');
   router.push('/');
 };
-
-// Optional: If you want login from another component to update UI:
-window.addEventListener('storage', () => {
-  const raw = localStorage.getItem('userData');
-  user.value = raw ? JSON.parse(raw) : null;
-});
-
-// const userData = computed(() => {
-//   const raw = localStorage.getItem('userData');
-//   try { return raw ? JSON.parse(raw) : null } catch { return null }
-// });
-
-// const userName = computed(() => userData.value?.user || 'Guest');
-
-// const logout = () => {
-//   localStorage.clear();
-//   alert('logout success');
-//   router.push('/');
-// };
 
 const handleMouseLeave = () => {
   showDropdown.value = false;

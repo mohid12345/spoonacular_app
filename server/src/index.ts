@@ -11,10 +11,17 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(express.json());
+// app.use(cors({
+//   origin: ['https://artsofkerala.shop', 'http://artsofkerala.shop', 'http://40.192.50.51', 'https://40.192.50.51', 
+//     'http://localhost:5173/', 'http://127.0.0.1:5173'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
+
+
 app.use(cors({
-  origin: ['https://artsofkerala.shop', 'http://artsofkerala.shop', 'http://40.192.50.51', 'https://40.192.50.51'],
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
 }));
 
 

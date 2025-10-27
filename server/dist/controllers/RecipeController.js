@@ -25,6 +25,27 @@ class RecipeController {
                 res.status(500).json({ msg: 'Internal server error' });
             }
         };
+        this.getRecipeById = async (req, res) => {
+            try {
+                const UserId = req.body.UserId;
+                const { recipeId } = req.params;
+                const recipe = await this.recipeService.getRecipeById(recipeId, UserId);
+                if (!recipe) {
+                    res.status(404).json({ msg: 'Recipe not found' });
+                    return;
+                }
+                res.json(recipe);
+            }
+            catch (error) {
+                console.log(error);
+                if (error.message.includes('not Authorized')) {
+                    res.status(403).json({ msg: 'you are not Authorized' });
+                }
+                else {
+                    res.status(500).json({ msg: 'Internal server error' });
+                }
+            }
+        };
         this.deleteRecipe = async (req, res) => {
             try {
                 const userIdInUserDoc = req.body.UserId;

@@ -30,6 +30,29 @@ export class RecipeController {
     }
   };
 
+  getRecipeById = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+    try {
+      const UserId = req.body.UserId;
+      const { recipeId } = req.params;
+      
+      const recipe = await this.recipeService.getRecipeById(recipeId, UserId as string);
+      
+      if (!recipe) {
+        res.status(404).json({ msg: 'Recipe not found' });
+        return;
+      }
+      
+      res.json(recipe);
+    } catch (error) {
+      console.log(error);
+      if ((error as Error).message.includes('not Authorized')) {
+        res.status(403).json({ msg: 'you are not Authorized' });
+      } else {
+        res.status(500).json({ msg: 'Internal server error' });
+      }
+    }
+  };
+
   deleteRecipe = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const userIdInUserDoc = req.body.UserId;
@@ -44,3 +67,4 @@ export class RecipeController {
     }
   };
 }
+

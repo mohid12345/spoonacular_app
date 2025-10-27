@@ -58,8 +58,8 @@ async function getData() {
 }
 
 async function handleDelete(id: string) {
-    try {
-        await localApi.deleteRecipe(Number(id));
+    try {        
+        await localApi.deleteRecipe(id as any);
         data.value = data.value.filter((x) => x._id !== id);
         toast.success("Recipe deleted successfully");
     } catch (error: any) {

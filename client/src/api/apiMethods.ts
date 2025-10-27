@@ -208,8 +208,31 @@ export class LocalApiService {
     }
   }
 
-  async deleteRecipe(id: number): Promise<ApiResponse<any>> {
+  async getRecipe(id: string): Promise<ApiResponse<Recipe>> {
     try {
+      const response = await axios.get(
+        `${this.baseURL}${API_ENDPOINTS.LOCAL.GET_RECIPE}/${id}`,
+        { headers: this.getAuthHeaders() }
+      );
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        const refreshed = await this.refreshTokenIfNeeded();
+        if (refreshed) {
+          const response = await axios.get(
+            `${this.baseURL}${API_ENDPOINTS.LOCAL.GET_RECIPE}/${id}`,
+            { headers: this.getAuthHeaders() }
+          );
+          return response.data;
+        }
+      }
+      console.error('Error fetching recipe:', error);
+      throw error;
+    }
+  }
+
+  async deleteRecipe(id: string | number): Promise<ApiResponse<any>> {
+    try {      
       const response = await axios.delete(
         `${this.baseURL}${API_ENDPOINTS.LOCAL.DELETE_RECIPE}/${id}`,
         { headers: this.getAuthHeaders() }
