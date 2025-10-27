@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
   
   // Local backend endpoints
   LOCAL: {
-    BASE_URL: 'http://artsofkerala.shop:3001',
+    BASE_URL: 'http://artsofkerala.shop',
     CREATE_RECIPE: '/recipe/create',
     GET_RECIPES: '/recipe/get',
     DELETE_RECIPE: '/recipe/delete',
