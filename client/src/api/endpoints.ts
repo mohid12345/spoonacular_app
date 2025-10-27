@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
   
   // Local backend endpoints
   LOCAL: {
-    BASE_URL: 'http://127.0.0.1:3001',
+    BASE_URL: 'http://40.192.50.51:3001',
     CREATE_RECIPE: '/recipe/create',
     GET_RECIPES: '/recipe/get',
     DELETE_RECIPE: '/recipe/delete',
