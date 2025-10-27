@@ -32,7 +32,7 @@ const toast = useToast()
 async function handleSubmit() {
   try {
     const data = { email: email.value, password: password.value }
-    const response = await localApi.login(data)
+    const response = await localApi.login(data) as any
     
     if (response.token) {
       toast.success(response.msg)

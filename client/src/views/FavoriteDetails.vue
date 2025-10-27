@@ -31,8 +31,9 @@ const toast = useToast()
 onMounted(async () => {
   const id = route.params.id as string
   try {
-    const response = await localApi.getRecipes()
-    const recipe = response.find((r: any) => r._id === id)
+  const response = await localApi.getRecipes()
+    const recipes = response.data as unknown as RecipeDetails[]
+    const recipe = recipes.find((r) => r._id === id)
     if (recipe) {
       data.value = recipe
     } else {

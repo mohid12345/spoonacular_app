@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import { IRecipe } from '../types';
 
-export interface IRecipeDocument extends IRecipe, Document {}
+export interface IRecipeDocument extends IRecipe {}
 
 const recipeSchema = new Schema<IRecipeDocument>({
   image: { type: String, required: true },

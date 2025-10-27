@@ -63,7 +63,7 @@
                             </RouterLink>
                             <h3>{{ recipe.title }}</h3>
                             <p v-if="recipe.summary" v-html="shortSummary(recipe.summary)"></p>
-                            <button class="add_fav" @click="handleCreateFav(recipe)">Add To Fav</button>
+                            <button class="add_fav" style="color: aliceblue;" @click="handleCreateFav(recipe)">Add To Fav</button>
                         </div>
                     </template>
                 </div>

@@ -12,7 +12,7 @@ export class RecipeController {
   createRecipe = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const data = req.body;
-      const result = await this.recipeService.createRecipe(data);
+      const result = await this.recipeService.createRecipe(data as any);
       res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ msg: (error as Error).message });
@@ -22,7 +22,7 @@ export class RecipeController {
   getUserRecipes = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const UserId = req.body.UserId;
-      const recipes = await this.recipeService.getUserRecipes(UserId);
+      const recipes = await this.recipeService.getUserRecipes(UserId as string);
       res.send(recipes);
     } catch (error) {
       console.log(error);
@@ -36,7 +36,7 @@ export class RecipeController {
       const { recipeId } = req.params;
       
       console.log(recipeId);
-      const result = await this.recipeService.deleteRecipe(recipeId, userIdInUserDoc);
+      const result = await this.recipeService.deleteRecipe(recipeId, userIdInUserDoc as any);
       res.json(result);
     } catch (error) {
       console.log(error);

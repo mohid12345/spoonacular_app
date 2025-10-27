@@ -35,7 +35,7 @@ const toast = useToast()
 async function handleSubmit() {
   try {
     const data = { user: name.value, email: email.value, password: password.value }
-    const response = await localApi.register(data)
+    const response = await localApi.register(data) as any
     toast.success(response.msg)
     router.push('/login')
   } catch (error: any) {

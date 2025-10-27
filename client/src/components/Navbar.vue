@@ -33,13 +33,13 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 // Props
-interface Props {
-  isFilterOpen?: boolean;
-}
+// interface Props {
+//   isFilterOpen?: boolean;
+// }
 
-const props = withDefaults(defineProps<Props>(), {
-  isFilterOpen: false
-});
+// const props = withDefaults(defineProps<Props>(), {
+//   isFilterOpen: false
+// });
 
 // Emits
 const emit = defineEmits<{
