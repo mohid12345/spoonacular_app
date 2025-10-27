@@ -13,7 +13,11 @@ dotenv_1.default.config();
 const port = process.env.PORT || 8080;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: ['https://artsofkerala.shop', 'http://artsofkerala.shop', 'http://40.192.50.51', 'https://40.192.50.51'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 app.use('/user', userRoutes_1.UserRouter);
 app.use('/recipe', recipeRoutes_1.RecipeRoutes);
 app.get('/', (req, res) => {
