@@ -63,15 +63,19 @@
                             </RouterLink>
                             <h3>{{ recipe.title }}</h3>
                             <p v-if="recipe.summary" v-html="shortSummary(recipe.summary)"></p>
-                            <button class="add_fav" style="color: aliceblue;" @click="handleCreateFav(recipe)">Add To Fav</button>
+                            <button class="add_fav" style="color: aliceblue" @click="handleCreateFav(recipe)">
+                                Add To Fav
+                            </button>
                         </div>
                         <!-- Sentinel for infinite scrolling -->
-                        <div ref="sentinel" style="width: 100%; height: 1px;"></div>
+                        <div ref="sentinel" style="width: 100%; height: 1px"></div>
                         <!-- Optional fallback button -->
-                        <div v-if="!isLoadingMore && hasMore" style="width: 100%; text-align: center; margin-top: 16px;">
+                        <div v-if="!isLoadingMore && hasMore" style="width: 100%; text-align: center; margin-top: 16px">
                             <button @click="loadMore">Load More</button>
                         </div>
-                        <div v-if="isLoadingMore" style="width: 100%; text-align: center; margin: 8px; color: #666;">Loading more...</div>
+                        <div v-if="isLoadingMore" style="width: 100%; text-align: center; margin: 8px; color: #666">
+                            Loading more...
+                        </div>
                     </template>
                 </div>
             </div>
@@ -83,7 +87,7 @@
 import { ref, watchEffect, onMounted } from "vue";
 import { ContentLoader } from "vue-content-loader";
 import FilterNavbar from "../components/FilterNavbar.vue";
-import { useToast } from 'vue-toastification';
+import { useToast } from "vue-toastification";
 
 import { spoonacularApi, localApi, type Recipe, type SearchParams } from "../api";
 
@@ -146,7 +150,7 @@ const performSearch = async () => {
             const results = await spoonacularApi.searchRecipes({
                 ...currentFilters.value,
                 number: pageSize.value,
-                offset: 0
+                offset: 0,
             });
             recipes.value = results;
             hasMore.value = results.length === pageSize.value;
@@ -182,7 +186,7 @@ const loadMore = async () => {
             const results = await spoonacularApi.searchRecipes({
                 ...currentFilters.value,
                 number: pageSize.value,
-                offset: nextOffset
+                offset: nextOffset,
             });
             recipes.value = recipes.value.concat(results);
             page.value += 1;
@@ -209,12 +213,15 @@ const loadMore = async () => {
 onMounted(async () => {
     await performSearch();
     // setup intersection observer for infinite scroll
-    const observer = new IntersectionObserver((entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting) {
-            loadMore();
-        }
-    }, { rootMargin: '200px' });
+    const observer = new IntersectionObserver(
+        (entries) => {
+            const entry = entries[0];
+            if (entry.isIntersecting) {
+                loadMore();
+            }
+        },
+        { rootMargin: "200px" }
+    );
     if (sentinel.value) {
         observer.observe(sentinel.value);
     }
@@ -252,16 +259,15 @@ const handleCreateFav = async (recipe: Recipe) => {
 
 //helper fn for summary
 const shortSummary = (summary: string) => {
-  // Create a temporary element to strip tags safely for slicing
-  const div = document.createElement("div");
-  div.innerHTML = summary;
-  const text = div.textContent || div.innerText || "";
+    // Create a temporary element to strip tags safely for slicing
+    const div = document.createElement("div");
+    div.innerHTML = summary;
+    const text = div.textContent || div.innerText || "";
 
-  // Slice plain text to 134 characters
-  const shortText = text.slice(0, 134) + "...";
-  return shortText;
+    // Slice plain text to 134 characters
+    const shortText = text.slice(0, 134) + "...";
+    return shortText;
 };
-
 </script>
 
 <style scoped>
@@ -442,6 +448,7 @@ const shortSummary = (summary: string) => {
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-wrap: wrap;
 }
 
 #filter-button {
@@ -493,6 +500,10 @@ const shortSummary = (summary: string) => {
 
     .content-area {
         margin-left: 0 !important;
+    }
+    #filter-button{
+        position: relative;
+        margin-bottom: 1rem;
     }
 }
 </style>
