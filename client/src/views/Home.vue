@@ -216,7 +216,7 @@ onMounted(async () => {
     const observer = new IntersectionObserver(
         (entries) => {
             const entry = entries[0];
-            if (entry.isIntersecting) {
+            if (entry && entry.isIntersecting) {
                 loadMore();
             }
         },
