@@ -4,8 +4,9 @@ import { RecipeRepository } from '../repositories/RecipeRepository';
 export class RecipeService implements IRecipeService {
   private recipeRepository: IRecipeRepository;
 
-  constructor() {
-    this.recipeRepository = new RecipeRepository();
+  // Inject repository to decouple service from concrete implementation
+  constructor(recipeRepository: IRecipeRepository = new RecipeRepository()) {
+    this.recipeRepository = recipeRepository;
   }
 
   async createRecipe(recipeData: Omit<import('../types').IRecipe, '_id'>): Promise<{ msg: string }> {

@@ -65,6 +65,13 @@
                             <p v-if="recipe.summary" v-html="shortSummary(recipe.summary)"></p>
                             <button class="add_fav" style="color: aliceblue;" @click="handleCreateFav(recipe)">Add To Fav</button>
                         </div>
+                        <!-- Sentinel for infinite scrolling -->
+                        <div ref="sentinel" style="width: 100%; height: 1px;"></div>
+                        <!-- Optional fallback button -->
+                        <div v-if="!isLoadingMore && hasMore" style="width: 100%; text-align: center; margin-top: 16px;">
+                            <button @click="loadMore">Load More</button>
+                        </div>
+                        <div v-if="isLoadingMore" style="width: 100%; text-align: center; margin: 8px; color: #666;">Loading more...</div>
                     </template>
                 </div>
             </div>
@@ -83,6 +90,11 @@ import { spoonacularApi, localApi, type Recipe, type SearchParams } from "../api
 const searchQuery = ref("");
 const recipes = ref<Recipe[]>([]);
 const isLoading = ref(false);
+const isLoadingMore = ref(false);
+const pageSize = ref(12);
+const page = ref(0); // zero-based for offset
+const hasMore = ref(true);
+const sentinel = ref<HTMLElement | null>(null);
 const isFilterOpen = ref(false);
 const toast = useToast();
 const currentFilters = ref<SearchParams>({
@@ -118,6 +130,10 @@ const handleApplyFilters = async () => {
 };
 
 const performSearch = async () => {
+    // reset list and paging
+    recipes.value = [];
+    page.value = 0;
+    hasMore.value = true;
     isLoading.value = true;
     try {
         if (
@@ -127,26 +143,81 @@ const performSearch = async () => {
             currentFilters.value.intolerances?.length ||
             currentFilters.value.type?.length
         ) {
-            // Use filtered search
-            recipes.value = await spoonacularApi.searchRecipes(currentFilters.value);
+            const results = await spoonacularApi.searchRecipes({
+                ...currentFilters.value,
+                number: pageSize.value,
+                offset: 0
+            });
+            recipes.value = results;
+            hasMore.value = results.length === pageSize.value;
         } else {
-            // Use random recipes
-            recipes.value = await spoonacularApi.getRandomRecipes({
-                number: 12,
+            const results = await spoonacularApi.getRandomRecipes({
+                number: pageSize.value,
                 tags: ["vegetarian", "dessert"],
             });
+            recipes.value = results;
+            hasMore.value = results.length === pageSize.value;
         }
     } catch (error) {
         console.error("Error fetching recipes:", error);
         recipes.value = [];
+        hasMore.value = false;
     } finally {
         isLoading.value = false;
+    }
+};
+
+const loadMore = async () => {
+    if (isLoading.value || isLoadingMore.value || !hasMore.value) return;
+    isLoadingMore.value = true;
+    try {
+        if (
+            currentFilters.value.query ||
+            currentFilters.value.cuisine?.length ||
+            currentFilters.value.diet?.length ||
+            currentFilters.value.intolerances?.length ||
+            currentFilters.value.type?.length
+        ) {
+            const nextOffset = (page.value + 1) * pageSize.value;
+            const results = await spoonacularApi.searchRecipes({
+                ...currentFilters.value,
+                number: pageSize.value,
+                offset: nextOffset
+            });
+            recipes.value = recipes.value.concat(results);
+            page.value += 1;
+            if (results.length < pageSize.value) hasMore.value = false;
+        } else {
+            // Random API doesn't have offset; we simulate pagination by requesting another batch and appending
+            const results = await spoonacularApi.getRandomRecipes({
+                number: pageSize.value,
+                tags: ["vegetarian", "dessert"],
+            });
+            recipes.value = recipes.value.concat(results);
+            page.value += 1;
+            if (results.length < pageSize.value) hasMore.value = false;
+        }
+    } catch (error) {
+        console.error("Error loading more recipes:", error);
+        hasMore.value = false;
+    } finally {
+        isLoadingMore.value = false;
     }
 };
 
 // Initialize with random recipes
 onMounted(async () => {
     await performSearch();
+    // setup intersection observer for infinite scroll
+    const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+            loadMore();
+        }
+    }, { rootMargin: '200px' });
+    if (sentinel.value) {
+        observer.observe(sentinel.value);
+    }
 });
 
 // Watch for search query changes

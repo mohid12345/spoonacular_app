@@ -23,6 +23,7 @@ export interface SearchParams {
   intolerances?: string[];
   type?: string[];
   number?: number;
+  offset?: number;
   addRecipeInformation?: boolean;
 }
 
@@ -82,6 +83,7 @@ export class SpoonacularApiService {
         intolerances: params.intolerances,
         type: params.type,
         number: params.number || 12,
+        offset: params.offset || 0,
         addRecipeInformation: params.addRecipeInformation || true
       });
       

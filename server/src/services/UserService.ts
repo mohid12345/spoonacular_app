@@ -6,9 +6,13 @@ export class UserService implements IUserService {
   private userRepository: IUserRepository;
   private authService: IAuthService;
 
-  constructor() {
-    this.userRepository = new UserRepository();
-    this.authService = new AuthService();
+  // Dependences are injected to follow DIP; defaults provided for convenience
+  constructor(
+    userRepository: IUserRepository = new UserRepository(),
+    authService: IAuthService = new AuthService()
+  ) {
+    this.userRepository = userRepository;
+    this.authService = authService;
   }
 
   async register(name: string, email: string, password: string): Promise<{ msg: string; userRegister?: any }> {
