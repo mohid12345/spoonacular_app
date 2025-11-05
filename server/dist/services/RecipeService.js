@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecipeService = void 0;
 const RecipeRepository_1 = require("../repositories/RecipeRepository");
 class RecipeService {
-    constructor() {
-        this.recipeRepository = new RecipeRepository_1.RecipeRepository();
+    constructor(recipeRepository = new RecipeRepository_1.RecipeRepository()) {
+        this.recipeRepository = recipeRepository;
     }
     async createRecipe(recipeData) {
         try {

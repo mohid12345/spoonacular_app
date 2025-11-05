@@ -4,9 +4,9 @@ exports.UserService = void 0;
 const UserRepository_1 = require("../repositories/UserRepository");
 const AuthService_1 = require("./AuthService");
 class UserService {
-    constructor() {
-        this.userRepository = new UserRepository_1.UserRepository();
-        this.authService = new AuthService_1.AuthService();
+    constructor(userRepository = new UserRepository_1.UserRepository(), authService = new AuthService_1.AuthService()) {
+        this.userRepository = userRepository;
+        this.authService = authService;
     }
     async register(name, email, password) {
         try {

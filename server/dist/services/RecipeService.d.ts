@@ -1,7 +1,7 @@
-import { IRecipeService } from '../types';
+import { IRecipeService, IRecipeRepository } from '../types';
 export declare class RecipeService implements IRecipeService {
     private recipeRepository;
-    constructor();
+    constructor(recipeRepository?: IRecipeRepository);
     createRecipe(recipeData: Omit<import('../types').IRecipe, '_id'>): Promise<{
         msg: string;
     }>;
