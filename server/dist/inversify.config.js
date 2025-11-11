@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.container = void 0;
+require("reflect-metadata");
+const inversify_1 = require("inversify");
+const types_1 = require("./ioc/types");
+const UserRepository_1 = require("./repositories/UserRepository");
+const RecipeRepository_1 = require("./repositories/RecipeRepository");
+const AuthService_1 = require("./services/AuthService");
+const UserService_1 = require("./services/UserService");
+const RecipeService_1 = require("./services/RecipeService");
+const UserController_1 = require("./controllers/UserController");
+const RecipeController_1 = require("./controllers/RecipeController");
+const container = new inversify_1.Container();
+exports.container = container;
+container.bind(types_1.TYPES.UserRepository).to(UserRepository_1.UserRepository).inSingletonScope();
+container.bind(types_1.TYPES.RecipeRepository).to(RecipeRepository_1.RecipeRepository).inSingletonScope();
+container.bind(types_1.TYPES.AuthService).to(AuthService_1.AuthService).inSingletonScope();
+container.bind(types_1.TYPES.UserService).to(UserService_1.UserService);
+container.bind(types_1.TYPES.RecipeService).to(RecipeService_1.RecipeService);
+container.bind(types_1.TYPES.UserController).to(UserController_1.UserController);
+container.bind(types_1.TYPES.RecipeController).to(RecipeController_1.RecipeController);
+//# sourceMappingURL=inversify.config.js.map
