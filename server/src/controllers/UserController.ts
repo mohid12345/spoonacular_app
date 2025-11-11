@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { UserService } from '../services/UserService';
+import { IUserService } from '../types';
 
 export class UserController {
-  private userService: UserService;
+  private userService: IUserService;
 
-  constructor() {
-    this.userService = new UserService();
+  constructor(userService: IUserService) {
+    this.userService = userService;
   }
 
   register = async (req: Request, res: Response): Promise<void> => {

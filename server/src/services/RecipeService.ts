@@ -1,6 +1,8 @@
 import { IRecipeService, IRecipeRepository } from '../types';
 import { RecipeRepository } from '../repositories/RecipeRepository';
+import { injectable } from 'inversify';
 
+@injectable()
 export class RecipeService implements IRecipeService {
   private recipeRepository: IRecipeRepository;
 

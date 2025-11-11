@@ -46,5 +46,6 @@ export interface IUserService {
 export interface IRecipeService {
   createRecipe(recipeData: Omit<IRecipe, '_id'>): Promise<{ msg: string }>;
   getUserRecipes(userId: string): Promise<IRecipe[]>;
+  getRecipeById(recipeId: string, userId: string): Promise<IRecipe | null>;
   deleteRecipe(recipeId: string, userId: string): Promise<{ msg: string }>;
 }

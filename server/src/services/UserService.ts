@@ -1,7 +1,9 @@
 import { IUserService, IUserRepository, IAuthService } from '../types';
 import { UserRepository } from '../repositories/UserRepository';
 import { AuthService } from './AuthService';
+import { injectable } from 'inversify';
 
+@injectable()
 export class UserService implements IUserService {
   private userRepository: IUserRepository;
   private authService: IAuthService;

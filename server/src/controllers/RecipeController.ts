@@ -1,12 +1,12 @@
 import { Response } from 'express';
-import { RecipeService } from '../services/RecipeService';
+import { IRecipeService } from '../types';
 import { AuthenticatedRequest } from '../middleware/auth';
 
 export class RecipeController {
-  private recipeService: RecipeService;
+  private recipeService: IRecipeService;
 
-  constructor() {
-    this.recipeService = new RecipeService();
+  constructor(recipeService: IRecipeService) {
+    this.recipeService = recipeService;
   }
 
   createRecipe = async (req: AuthenticatedRequest, res: Response): Promise<void> => {

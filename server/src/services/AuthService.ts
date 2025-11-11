@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { IAuthService } from '../types';
+import { injectable } from 'inversify';
 
+@injectable()
 export class AuthService implements IAuthService {
   async hashPassword(password: string): Promise<string> {
     try {

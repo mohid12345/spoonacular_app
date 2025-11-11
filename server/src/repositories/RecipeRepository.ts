@@ -1,6 +1,8 @@
 import { IRecipe, IRecipeRepository } from '../types';
 import { RecipeModel } from '../models/Recipe';
+import { injectable } from 'inversify';
 
+@injectable()
 export class RecipeRepository implements IRecipeRepository {
   async create(recipe: Omit<IRecipe, '_id'>): Promise<IRecipe> {
     try {
