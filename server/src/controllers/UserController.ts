@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { IUserService } from '../types';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../ioc/types';
 
+@injectable()
 export class UserController {
-  private userService: IUserService;
-
-  constructor(userService: IUserService) {
-    this.userService = userService;
+  constructor(@inject(TYPES.UserService) private readonly userService: IUserService) {
   }
 
   register = async (req: Request, res: Response): Promise<void> => {

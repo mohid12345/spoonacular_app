@@ -1,13 +1,12 @@
 import { Response } from 'express';
 import { IRecipeService } from '../types';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../ioc/types';
 import { AuthenticatedRequest } from '../middleware/auth';
 
+@injectable()
 export class RecipeController {
-  private recipeService: IRecipeService;
-
-  constructor(recipeService: IRecipeService) {
-    this.recipeService = recipeService;
-  }
+  constructor(@inject(TYPES.RecipeService) private readonly recipeService: IRecipeService) {}
 
   createRecipe = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {

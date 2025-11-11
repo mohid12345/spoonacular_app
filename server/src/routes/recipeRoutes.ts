@@ -3,11 +3,10 @@ import { RecipeController } from '../controllers/RecipeController';
 import { auth } from '../middleware/auth';
 import { container } from '../inversify.config';
 import { TYPES } from '../ioc/types';
-import { IRecipeService } from '../types';
+import { IRecipeController } from '../types';
 
 const router = Router();
-const recipeService = container.get<IRecipeService>(TYPES.RecipeService);
-const recipeController = new RecipeController(recipeService);
+const recipeController = container.get<IRecipeController>(TYPES.RecipeController);
 
 // Apply auth middleware to all recipe routes
 router.use(auth);
