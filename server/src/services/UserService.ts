@@ -1,7 +1,6 @@
 import { IUserService, IUserRepository, IAuthService } from '../types';
-import { UserRepository } from '../repositories/UserRepository';
-import { AuthService } from './AuthService';
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../ioc/types';
 
 @injectable()
 export class UserService implements IUserService {
@@ -10,8 +9,8 @@ export class UserService implements IUserService {
 
   // Dependences are injected to follow DIP; defaults provided for convenience
   constructor(
-    userRepository: IUserRepository = new UserRepository(),
-    authService: IAuthService = new AuthService()
+    @inject(TYPES.UserRepository) userRepository: IUserRepository,
+    @inject(TYPES.AuthService) authService: IAuthService
   ) {
     this.userRepository = userRepository;
     this.authService = authService;
