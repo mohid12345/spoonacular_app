@@ -16,11 +16,7 @@ container.bind<IRecipeRepository>(TYPES.RecipeRepository).to(RecipeRepository).i
 
 // Services
 container.bind<IAuthService>(TYPES.AuthService).to(AuthService).inSingletonScope();
-container.bind<IUserService>(TYPES.UserService).toDynamicValue((ctx) => {
-	const userRepo = ctx.container.get<IUserRepository>(TYPES.UserRepository);
-	const authSvc = ctx.container.get<IAuthService>(TYPES.AuthService);
-	return new UserService(userRepo, authSvc);
-});
+container.bind<IUserService>(TYPES.UserService).to(UserService);
 container.bind<IRecipeService>(TYPES.RecipeService).toDynamicValue((ctx) => {
 	const recipeRepo = ctx.container.get<IRecipeRepository>(TYPES.RecipeRepository);
 	return new RecipeService(recipeRepo);
