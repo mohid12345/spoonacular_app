@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
-const AuthService_1 = require("../services/AuthService");
+const inversify_config_1 = require("../inversify.config");
+const types_1 = require("../ioc/types");
 const auth = (req, res, next) => {
-    const authService = new AuthService_1.AuthService();
+    const authService = inversify_config_1.container.get(types_1.TYPES.AuthService);
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
         res.status(401).json({ msg: 'please login first' });

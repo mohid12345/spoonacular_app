@@ -63,8 +63,22 @@ export interface IRecipeService {
         msg: string;
     }>;
     getUserRecipes(userId: string): Promise<IRecipe[]>;
+    getRecipeById(recipeId: string, userId: string): Promise<IRecipe | null>;
     deleteRecipe(recipeId: string, userId: string): Promise<{
         msg: string;
     }>;
+}
+import type { Request, Response } from 'express';
+import type { AuthenticatedRequest } from '@/middleware/auth';
+export interface IUserController {
+    register(req: Request, res: Response): Promise<void>;
+    login(req: Request, res: Response): Promise<void>;
+    refreshToken(req: Request, res: Response): Promise<void>;
+}
+export interface IRecipeController {
+    createRecipe(req: AuthenticatedRequest, res: Response): Promise<void>;
+    getUserRecipes(req: AuthenticatedRequest, res: Response): Promise<void>;
+    getRecipeById(req: AuthenticatedRequest, res: Response): Promise<void>;
+    deleteRecipe(req: AuthenticatedRequest, res: Response): Promise<void>;
 }
 //# sourceMappingURL=index.d.ts.map
