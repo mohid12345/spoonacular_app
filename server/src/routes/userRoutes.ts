@@ -2,11 +2,10 @@ import { Router } from 'express';
 import { UserController } from '../controllers/UserController';
 import { container } from '../inversify.config';
 import { TYPES } from '../ioc/types';
-import { IUserService } from '../types';
+import { IUserController } from '../types';
 
 const router = Router();
-const userService = container.get<IUserService>(TYPES.UserService);
-const userController = new UserController(userService);  
+const userController = container.get<IUserController>(TYPES.UserController);
 
 router.post('/register', userController.register);
 router.post('/login', userController.login);

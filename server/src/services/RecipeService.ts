@@ -1,13 +1,13 @@
 import { IRecipeService, IRecipeRepository } from '../types';
-import { RecipeRepository } from '../repositories/RecipeRepository';
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../ioc/types';
 
 @injectable()
 export class RecipeService implements IRecipeService {
   private recipeRepository: IRecipeRepository;
 
   // Inject repository to decouple service from concrete implementation
-  constructor(recipeRepository: IRecipeRepository = new RecipeRepository()) {
+  constructor(@inject(TYPES.RecipeRepository) recipeRepository: IRecipeRepository) {
     this.recipeRepository = recipeRepository;
   }
 

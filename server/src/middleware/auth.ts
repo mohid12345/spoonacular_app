@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { AuthService } from '../services/AuthService';
+import { container } from '../inversify.config';
+import { TYPES } from '../ioc/types';
+import { IAuthService } from '../types';
 
 export interface AuthenticatedRequest extends Request {
   body: {
@@ -10,7 +12,7 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export const auth = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
-  const authService = new AuthService();
+  const authService = container.get<IAuthService>(TYPES.AuthService);
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
