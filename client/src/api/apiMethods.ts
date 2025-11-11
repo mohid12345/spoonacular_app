@@ -142,7 +142,7 @@ export class LocalApiService {
 
     try {
       const response = await axios.post(
-        `${this.baseURL}/auth/refresh`,
+        `${this.baseURL}/user/refresh`,
         { refreshToken },
         { headers: { 'Content-Type': 'application/json' } }
       );
